@@ -1,0 +1,320 @@
+1. Download and install Python from
+https://www.python.org/downloads/
+Click on Download Python 3.10.8
+Select Windows installer (64-bit) and download
+Once download is complete, click on installer exe and click open in the popup menu.
+
+1a. Open a cmd prompt and run following command to check installation:
+> python OR python3
+> quit()
+to exit python prompt and return back to cmd prompt
+
+2. Python version:
+   Python 3.10.4 (tags/v3.10.4:9d38120, Mar 23 2022, 23:13:41) [MSC v.1929 64 bit (AMD64)] on win32
+3. Install pip (PIP is a package manager for Python packages, or modules if you like)
+   Note: If you have Python version 3.4 or later, PIP is included by default.
+3a. Run following command to check pip is already installed
+> pip
+
+This will give usage instructions for pip.
+
+4. Install Django from https://www.djangoproject.com/download/
+5. > pip install Django
+	Collecting Django
+  		Downloading Django-4.1.2-py3-none-any.whl (8.1 MB)
+		
+6. To check if Django is installed run the command:
+> python -m pip list
+
+C:\Users\Admin>python -m pip list
+Package                Version
+---------------------- ---------
+asgiref                3.5.2
+certifi                2022.9.24
+cffi                   1.15.1
+charset-normalizer     2.1.1
+cryptography           38.0.1
+Django                 4.1.2
+
+7. Download and install SQLite browser from:
+https://sqlitebrowser.org/
+Click on Download tab and then on 
+DB Browser for SQLite - Standard installer for 64-bit Windows
+
+8 Mailgun account
+https://signup.mailgun.com/new/signup
+Full Name: Flambouyant Boy
+Company: Student
+Work Email: noreply.fb21@gmail.com
+Password: ...........
+Domain sandbox1a9436fba0504d47ac0eae34a2810dce.mailgun.org
+
+Grab your SMTP credentials:
+SMTP hostname: smtp.mailgun.org
+Port: 587 (recommended)
+Username: postmaster@sandbox1a9436fba0504d47ac0eae34a2810dce.mailgun.org
+Default password:
+d991834f5d28318046a2cb8ac166a52c-b0ed5083-........
+
+9 Create a GitHub account
+github username:flambouyantboy
+       password:........
+
+9a. Create an application for login inside GitHub8
+Authorization callback URL: http://localhost:8000/oauth/complete/github/
+
+Client ID: 5db1548c9d7a36b7028f
+Client secret: e886d14d13fb1a21eabef3b18b0f2b08........
+
+Tutorial to follow:
+https://realpython.com/get-started-with-django-1/
+https://realpython.com/django-user-management/
+
+-----------------------------------------------------------------------------------
+Project creation
+-----------------------------------------------------------------------------------
+1. Create a home directory for the project
+> mkdir rp-portfolio
+> cd rp-portfolio
+
+2. Create a Django Project called clubs_cms:
+> django-admin startproject clubs_cms
+
+3. This will create a project directory structure with manage.py and another 
+directory with files including urls.py and settings.py
+
+4. Start the server on a new cmd prompt
+> cd to <project directory>
+> python manage.py migrate
+> python manage.py runserver
+
+Server starts at address http://127.0.0.1:8000/
+or http://localhost:8000/
+Here http is the protocol.
+127.0.0.1 is the default IP address called as the loopback IP address
+8000 is the port number on which the server is running.
+
+4a. Start a browser and load following url to check if server is running:
+http://127.0.0.1:8000/
+
+This should load the default Django page.
+
+5. Note: If you see a warning about migrations related to the installation, kill the server <ctrl>+C 
+   and run the following command. After it is done, start server again using #4.
+> python manage.py migrate
+
+6. python manage.py is the command to manage the django project.
+To see all the manage commands use the following:
+> python manage.py help
+
+
+7. Create a super user
+> python manage.py createsuperuser
+
+8. Django Admin superuser
+username: fb21
+email adress : noreply.fb21@gmail.com
+password : @abcde098
+
+9. Copy the users app into the clubs_cms project:
+PY file: admin, apps, forms, models, tests, urls, views
+templates: base.html and folders registration and users
+migrations: <auto created>
+
+10. Update urls.py in clubs_cms:
+from django.urls import include, re_path
+
+11. Edit  urlpatterns in urls.py as follows
+
+urlpatterns = [
+    re_path(r"^", include("users.urls")),
+    re_path(r'^admin/', admin.site.urls),
+]
+
+12. Update settings.py in clubs_cms with these apps:
+
+INSTALLED_APPS = [
+    'users',
+    'social_django',
+	
+13. This should make the http://localhost:8000/accounts/login/ page to start working
+
+14. Edit users\templates\base.html to change title to:
+Welcome to Clubs CMS
+
+15. Install module social django:
+> pip install social-auth-app-django
+
+16. Turn off AUTH_PASSWORD_VALIDATORS in clubs_cms/seetings.py (comment out all the lines):
+
+AUTH_PASSWORD_VALIDATORS = [
+    # {
+    #     "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
+    # },
+	
+17. Add following line to end of settings.url in clubs_cms
+LOGIN_REDIRECT_URL = "dashboard"
+
+This will take a user to the dashboard after successful login
+
+18. Add following line to end of settings.url in clubs_cms
+LOGOUT_REDIRECT_URL = "dashboard"
+
+This will redirect user to dashboard after logout
+
+19. Start mail server on a new command prompt
+>python -m smtpd -n -c DebuggingServer localhost:1025
+
+This will start a simple SMTP server at http://localhost:1025. 
+
+20. Add these two lines at the end of the settings file:
+EMAIL_HOST = "localhost"
+EMAIL_PORT = 1025
+
+21. Test the rest password functionality and see email printed on smtpd console
+22. Use the http link in the printed email to reset the password
+
+23. Register a new user using link:
+http://localhost:8000/register/
+
+24. Register a email server for the project. Add/update following 
+    lines to clubs_cms/settings.py:
+	
+EMAIL_HOST = "smtp.mailgun.org"
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "noreply.fb21@gmail.com"
+EMAIL_HOST_PASSWORD = "........"
+EMAIL_USE_TLS = True
+
+25. Create a new user with email address "noreply.fb21@gmail.com"
+Go to http://localhost:8000/admin/ and log in as the admin user. 
+Go to Users and click ADD USER. 
+Select any username and password you like and click Save and continue editing. 
+Then insert the same email address noreply.fb21@gmail.com into the email address field and save the user.
+
+26. After creating the user, navigate to 
+http://localhost:8000/accounts/password_reset/. 
+Enter your email address and press Send
+
+This will send reset link to email address.
+
+27. Setup Social Authentication, install the module:
+> python -m pip install social-auth-app-django
+
+28. Add the Social Django app to installed apps in clubs_cms/settings.py
+
+INSTALLED_APPS = [
+    "users",
+    "social_django",
+	
+29. Add templates entries for social django under TEMPLATES in clubs_cms/settings.py
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+				...
+				...
+				"social_django.context_processors.backends",
+                "social_django.context_processors.login_redirect",
+            ],
+
+30. Apply migrations to clubs_cms
+> python manage.py migrate
+
+31. Include URL in users/urls.py under urlpatterns [...] (already done)
+urlpatterns = [
+    ...
+    url(r"^oauth/", include("social_django.urls")),
+	
+32 Add backends to clubs_cms/settings.py
+
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "social_core.backends.github.GithubOAuth2",
+]
+
+33. Login link already added in login.html
+<a href="{% url 'social:begin' 'github' %}">Login with GitHub</a>
+
+34. GitHub Application already created on GitHub, credentials noted above.
+
+35. Update clubs_cms/seetings.py with credentials
+
+SOCIAL_AUTH_GITHUB_KEY = "5db1548c9d7a36b7028f"
+SOCIAL_AUTH_GITHUB_SECRET = "e886d14d13fb1a21eabef3b18b0f2b08........"
+
+36. Integrate the CMS app (blog) into the project 
+Using file explorer, copy the blog directory under clubs_cms folders
+
+37. Add 'blog' app to clubs_cms/seetings.py under INSTALLED_APPS
+INSTALLED_APPS = [
+    'users',
+    'social_django',
+    'blog',
+	
+37. Apply migrations to cms (makemigrations if required)
+> python manage.py makemigrations blog
+> python manage.py migrate
+
+Operations to perform:
+  Apply all migrations: admin, auth, blog, contenttypes, sessions, social_django
+Running migrations:
+  Applying blog.0001_initial... OK
+  
+38. Login as administrator at http://localhost:8000/admin/ and 
+    check Blog tables Categorys and Posts are visible
+	
+39. In blog_index.html, replace {% block page_content %} with {% block content %}
+
+40. In users\templates\base.html, add this line at the top:
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+41. Add these lines at the bottom:
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+42. Update the title in blog_index.html to:
+
+    <h1>Club Activities Listing</h1>
+	
+43. To test the blog app, make the following entry in clubs_cms/urls.py
+    re_path(r"^blog/", include("blog.urls")),
+	
+44. In clubs_cms/setings.py, change LOGIN_REDIRECT_URL to a view from blog app views
+LOGIN_REDIRECT_URL = "blog_index"
+
+45. Edit blog_index.html to check content for logged in user 
+
+<div class="col-md-8 offset-md-2">
+	{% if user.is_authenticated %}
+	...
+	...
+	% else %}
+        <a href="{% url 'login' %}">Login</a>
+    {% endif %}
+</div>
+
+46. Repeat #39 for blog_category.html and blog_detail.html
+47. Repeat #45 for blog_category.html and blog_detail.html
+
+
+
+
+
+GitHub installation
+1. Login to github at github.com
+2. Download and install GitHub Desktop
+3. Launch GitHub desktop and signin to github.com using your credentials
+4. Created a new repository with a readme/md file
+5. Created a branch
+6. Edited readme.md
+7. Made a commit
+8. Publish to GitHub
+9. Open a pull request
+10. Commit the pull request at GitHub.com
+11. Delete the branch
