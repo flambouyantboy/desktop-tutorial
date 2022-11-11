@@ -1,0 +1,123 @@
+Download project files from GitHub
+-----------------------------------------------
+1. On cmd prompt, change to project installation drive
+> d:
+
+2. Create installation directory called Django
+> mkdir Django
+> cd Django
+
+3. Open browser and go to https://github.com/flambouyantboy/desktop-tutorial
+4. Click on 'Code' and then 'Download Zip'
+5. Save it to d:\Django and extract it
+
+1. Download and install Python from
+https://www.python.org/downloads/
+Click on Download Python 3.10.8
+Select Windows installer (64-bit) and download
+Once download is complete, click on installer exe and click open in the popup menu.
+
+1a. Open a cmd prompt and run following command to check installation:
+> python OR python3
+> quit()
+to exit python prompt and return back to cmd prompt
+
+2. Python version:
+   Python 3.10.4 (tags/v3.10.4:9d38120, Mar 23 2022, 23:13:41) [MSC v.1929 64 bit (AMD64)] on win32
+3. Install pip (PIP is a package manager for Python packages, or modules if you like)
+   Note: If you have Python version 3.4 or later, PIP is included by default.
+3a. Run following command to check pip is already installed
+> pip
+
+This will give usage instructions for pip.
+
+4. Install Django from https://www.djangoproject.com/download/
+5. > pip install Django
+	Collecting Django
+  		Downloading Django-4.1.2-py3-none-any.whl (8.1 MB)
+6. To check if Django is installed run the command:
+> python -m pip list
+
+7. Download and install SQLite browser from:
+https://sqlitebrowser.org/
+Click on Download tab and then on 
+DB Browser for SQLite - Standard installer for 64-bit Windows
+
+
+-----------------------------------------------------------------------------------
+Project creation
+-----------------------------------------------------------------------------------
+
+
+1. Create a home directory for the project in the installation directory
+> mkdir rp-portfolio
+> cd rp-portfolio
+
+2. Copy dir clubs_cms to rp-portfolio
+
+3. Setup the project
+> cd to <project directory>
+
+4. Setup Social Authentication, install the module:
+> python -m pip install social-auth-app-django
+
+5. Integrate the project
+> python manage.py migrate
+
+6. Integrate blog app
+> python manage.py makemigrations blog
+> python manage.py migrate
+
+7. Create a Django Admin super user on cmd prompt
+> python manage.py createsuperuser
+username: fb21
+email adress : noreply.fb21@gmail.com
+password : @abcde098
+
+8. Start the srver on a new command prompt
+> cd to <project directory>
+> python manage.py runserver
+
+9. Start mail server on a new command prompt
+>python -m smtpd -n -c DebuggingServer localhost:1025
+
+10. http://localhost:8000/accounts/login/ page should start working
+   Open this in non-cognito browser
+   Login wont work yet as no users are registered
+
+8. Create a new user using incognito browser for admin
+Go to http://localhost:8000/admin/ and log in as the admin user. 
+Go to Users and click ADD USER. 
+Username: student1
+Password: npsinr
+
+Click Save if required
+
+9. Creaate blog categories and posts
+Go to http://localhost:8000/admin/ and log in as the admin user if required
+Click on BLOG Categorys and then click 'Add Category'
+Add new category 'Math Club' and click Save and add another
+Add new category 'Science Club' and click Save
+Go back to Home>Blog using the blue bar on the top Home>Blog>Categorys
+Click on Posts and 'ADD POST'
+Add a few posts in both categories and 'Save and Add Another'
+
+10. Go back to login page in non-cognito browser and login as student1
+http://localhost:8000/accounts/login/ 
+
+11. On login, page with clubs and posts will be visible!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
